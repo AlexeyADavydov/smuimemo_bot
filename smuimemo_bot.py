@@ -10,8 +10,6 @@ from navigator import MAIN_CATEGORIES
 load_dotenv()
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
-token_2 = os.getenv('TOKEN_2')
-bot_2 = telebot.TeleBot(token_2)
 
 category = None
 
@@ -56,10 +54,6 @@ def start(message):
     logging.info(
         f'ID:{message.from_user.id}, {message.from_user.username}'
     )
-    bot_2.send_message(
-        message.chat.id,
-        f'ID:{message.from_user.id}, {message.from_user.username}'
-    )
 
 
 @bot.message_handler(func=lambda message: message.text == 'Назад')
@@ -102,10 +96,6 @@ def replies(message):
             caption=None
         )
         logging.info(
-            f'{message.from_user.username} - {file_name}'
-        )
-        bot_2.send_message(
-            message.chat.id,
             f'{message.from_user.username} - {file_name}'
         )
 
