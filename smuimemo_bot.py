@@ -1,4 +1,5 @@
 import os
+import logging
 
 import telebot
 from dotenv import load_dotenv
@@ -9,8 +10,16 @@ from navigator import MAIN_CATEGORIES
 load_dotenv()
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
+token_2 = os.getenv('TOKEN_2')
+bot_2 = telebot.TeleBot(token_2)
 
 category = None
+
+logging.basicConfig(
+    level=logging.INFO,
+    filename='main.log',
+    format='%(asctime)s - %(levelname)s - %(message)s - %(name)s'
+)
 
 
 def buttons_generator(list_of_buttons):
@@ -43,6 +52,13 @@ def start(message):
         f'Если у вас будут предложения по развитию и улучшению Архива опыта, '
         f'мы будем рады их услышать. Наша почта - smuimemo@yandex.ru',
         reply_markup=buttons
+    )
+    logging.info(
+        f'ID:{message.from_user.id}, {message.from_user.username}'
+    )
+    bot_2.send_message(
+        message.chat.id,
+        f'ID:{message.from_user.id}, {message.from_user.username}'
     )
 
 
@@ -84,6 +100,13 @@ def replies(message):
             message.chat.id,
             document=file,
             caption=None
+        )
+        logging.info(
+            f'{message.from_user.username} - {file_name}'
+        )
+        bot_2.send_message(
+            message.chat.id,
+            f'{message.from_user.username} - {file_name}'
         )
 
 
